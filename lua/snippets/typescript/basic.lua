@@ -2,6 +2,25 @@
 return {
   s(
     {
+      name = 'log debug',
+      trig = 'logDebug',
+      desc = 'Debug Logging',
+    },
+    fmta(
+      [[
+        <logger>.debug('<contentRep>', <content>)
+        <fin>
+      ]],
+      {
+        logger = i(1, 'logger'),
+        content = i(2),
+        contentRep = dl(3, l._1:gsub("'", '"'), { 2 }),
+        fin = i(0),
+      }
+    )
+  ),
+  s(
+    {
       name = 'for loop',
       trig = 'fr',
       desc = 'Basic for loop',

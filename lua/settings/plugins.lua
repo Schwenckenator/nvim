@@ -77,6 +77,9 @@ vim.pack.add {
 
   -- Add your own debuggers here
   -- 'leoluz/nvim-dap-go',
+  --
+  -- Wiki plugin
+  -- 'https://github.com/echaya/neowiki.nvim',
 }
 
 -- Load plugins

@@ -9,6 +9,8 @@ require('nvim-treesitter.configs').setup {
     'tsx',
     'javascript',
     'typescript',
+    'swift',
+    'java',
   },
   auto_install = true,
   highlight = {

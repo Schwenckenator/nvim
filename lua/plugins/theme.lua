@@ -5,6 +5,10 @@ require('catppuccin').setup {
   custom_highlights = function(C)
     local O = require('catppuccin').options
     return {
+      -- Lsp
+      LspReferenceText = { bg = C.surface0 },
+      LspReferenceRead = { bg = C.surface0 },
+      LspReferenceWrite = { bg = C.surface0 },
       ['@variable.member'] = { fg = C.lavender }, -- For fields.
       ['@module'] = { fg = C.lavender, style = O.styles.miscs or { 'italic' } }, -- For identifiers referring to modules and namespaces.
       ['@string.special.url'] = { fg = C.rosewater, style = { 'italic', 'underline' } }, -- urls, links and emails

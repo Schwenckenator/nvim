@@ -2,15 +2,18 @@ local servers = {
   { lsp = 'bashls', pkg = 'bash-language-server' },
   { lsp = 'cssls', pkg = 'css-lsp' },
   { lsp = 'eslint', pkg = 'eslint-lsp' },
+  { lsp = 'djlsp', pkg = 'django-template-lsp' },
   { lsp = 'gdscript', pkg = nil },
   { lsp = 'gdshader_lsp', pkg = nil },
   { lsp = 'html', pkg = 'html-lsp' },
   -- { lsp = 'htmx', pkg = 'htmx-lsp' },
   { lsp = 'lua_ls', pkg = 'lua-language-server' },
+  { lsp = 'markdown_oxide', pkg = 'markdown-oxide' },
   { lsp = 'pylsp', pkg = 'python-lsp-server' },
   { lsp = 'rust_analyzer', pkg = 'rust-analyzer' },
+  -- Swift LSP
+  { lsp = 'sourcekit', pkg = nil },
   { lsp = 'svelte', pkg = 'svelte-language-server' },
-  { lsp = 'tailwindcss', pkg = 'tailwindcss-language-server' },
   -- Python formatter
   { lsp = nil, pkg = 'black' },
   -- Linter and formatter for gdscript
@@ -30,6 +33,10 @@ for _, server in ipairs(servers) do
     vim.lsp.enable(server.lsp)
   end
 end
+
+vim.lsp.config('html', {
+  filetypes = { 'html', 'htmldjango', 'templ' },
+})
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
@@ -54,7 +61,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
       if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
         vim.keymap.set('n', '<leader>th', function()
           local enabled = vim.lsp.inlay_hint.is_enabled()
-          vim.print('Toggling Inlay hints ' .. (enabled and 'ON' or 'OFF'))
+          -- If 'on' now, will be 'off' next
+          vim.notify('Toggling Inlay hints ' .. (enabled and 'OFF' or 'ON'))
           vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
         end, { desc = '[T]oggle Inlay [H]ints' })
 
@@ -71,22 +79,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
           buffer = ev.buf,
           callback = vim.lsp.buf.clear_references,
-        })
-      end
-
-      if client.name == 'typescript-tools' then
-        -- Add commands for typescript and similar files (current buffer only)
-        vim.keymap.set('n', '<leader>cx', '<CMD>TSToolsFixAll<CR>', {
-          desc = '[C]ommand Fi[x]',
-          buffer = true,
-        })
-        vim.keymap.set('n', '<leader>cia', '<CMD>TSToolsAddMissingImports<CR>', {
-          desc = '[C]ommand [I]mport [A]dd',
-          buffer = true,
-        })
-        vim.keymap.set('n', '<leader>cir', '<CMD>TSToolsRemoveUnusedImports<CR>', {
-          desc = '[C]ommand [I]mport [R]emove',
-          buffer = true,
         })
       end
     end

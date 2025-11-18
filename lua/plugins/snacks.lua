@@ -15,17 +15,15 @@ require('snacks').setup {
   },
 }
 
+-- 'Darwin' is mac!
+local is_mac = vim.uv.os_uname().sysname == 'Darwin'
+local wikiDir = is_mac and '~/Documents/Obsidian/Personal Notes' or '~/wiki/'
+
 local searches = {
   { key = '<leader>sp', fun = Snacks.picker, desc = '[S]earch [P]ickers' },
   { key = '<leader>sr', fun = Snacks.picker.resume, desc = '[S]earch [R]esume' },
   { key = '<leader>sh', fun = Snacks.picker.help, desc = '[S]earch [H]elp' },
-  {
-    key = '<leader>sf',
-    fun = function()
-      Snacks.picker.files { exclude = { '*.uid' } }
-    end,
-    desc = '[S]earch [F]iles',
-  },
+  { key = '<leader>sf', fun = Snacks.picker.files, desc = '[S]earch [F]iles' },
   { key = '<leader>sg', fun = Snacks.picker.grep, desc = '[S]earch with [G]rep' },
   { key = '<leader>sj', fun = Snacks.picker.jumps, desc = '[S]earch [J]umps' },
   {
@@ -34,6 +32,13 @@ local searches = {
       Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
     end,
     desc = '[S]earch [N]eovim Config',
+  },
+  {
+    key = '<leader>sw',
+    fun = function()
+      Snacks.picker.files { cwd = wikiDir }
+    end,
+    desc = '[S]earch [W]iki',
   },
   { key = '<leader>sk', fun = Snacks.picker.keymaps, desc = '[S]earch [K]eymaps' },
   { key = '<leader>ss', fun = Snacks.picker.smart, desc = '[S]earch [S]mart' },
